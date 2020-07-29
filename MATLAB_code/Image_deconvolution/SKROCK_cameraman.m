@@ -77,9 +77,10 @@ logPiTrace(1)=logPi(XkSKROCK);
 fastFComponent=zeros(1,nSamples); % to save the fastest comp.
 slowFComponent=zeros(1,nSamples); % to save the slowest comp.
 %%% to save the mean of the samples from burn-in stage
-meanSamples_fromBurnIn = zeros(nRows,nColumns);
+meanSamples_fromBurnIn = XkSKROCK;
 %%% to save the evolution of the MSE from burn-in stage
 mse_fromBurnIn=zeros(1,nSamplesBurnIn+nSamples);
+mse_fromBurnIn(1)=immse(meanSamples_fromBurnIn,x);
 %%% to save the mean of the samples in the sampling stage
 meanSamples = zeros(nRows,nColumns);
 %%% to save the evolution of the MSE in the sampling stage
@@ -150,5 +151,5 @@ disp(['MSE (x): ' num2str(mse(end-1))]);
 
 %-------------------------------------------------------------------------%
 % Plot the results                                                        
-plot_RESULT(y,x,nStagesROCK,meanSamples,logPiTrace,mse,slowFComponent);     
+plot_results(y,x,nStagesROCK,meanSamples,logPiTrace,mse,slowFComponent);     
 %-------------------------------------------------------------------------%
