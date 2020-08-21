@@ -26,8 +26,8 @@ import time
 
 #%% Setup experiment
 N=128 # image dimension
-x = np.load('src/phantom.npy')
-# x = resize(x, (N,N),preserve_range=True,anti_aliasing=False) # 128x128 dim
+x = data.shepp_logan_phantom()
+x = resize(x, (N,N),preserve_range=True,anti_aliasing=False) # 128x128 dim
 
 angles = 22
 mask_temp = LineMask(angles,N)
