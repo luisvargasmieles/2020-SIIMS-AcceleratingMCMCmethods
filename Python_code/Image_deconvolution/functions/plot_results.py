@@ -3,11 +3,6 @@ import matplotlib.image as mpimg
 import numpy as np
 from IPython import get_ipython
 
-# Function to plot the autocorrelation of the slowest component
-def autocorr(x):
-    result = np.correlate(x, x, mode='full')
-    return result[result.size // 2:]
-
 def plot_results(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues):
 
     plt.rcParams.update({
