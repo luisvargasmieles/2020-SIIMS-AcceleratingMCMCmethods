@@ -80,8 +80,6 @@ nSamples = int(2e3) # number of samples to produce in the sampling stage
 XkSKROCK = y # Initial condition
 logPiTrace=np.zeros(nSamplesBurnIn+nSamples)
 logPiTrace[0]=logPi(XkSKROCK)
-fastFComponent=np.zeros(nSamples) # to save the fastest comp.
-slowFComponent=np.zeros(nSamples) # to save the slowest comp.
 # to save the mean of the samples from burn-in stage
 meanSamples_fromBurnIn = XkSKROCK
 # to save the evolution of the MSE from burn-in stage
@@ -134,10 +132,6 @@ for i in range(nSamples):
     meanSamples = (i/(i+1))*meanSamples + (1/(i+1))*XkSKROCK
     # mse from sampling stage
     mse[i] = np.square(np.subtract(meanSamples,x)).mean()
-    # to save the slowest and fastest component
-    fftSample=np.fft.fft2(XkSKROCK)
-    slowFComponent[i]=np.real(fftSample[10,50])
-    fastFComponent[i]=np.real(fftSample[4,2])
     # update iteration progress bar
     progressBar.update(1)
 
@@ -147,4 +141,4 @@ print('END OF THE SK-ROCK SAMPLING')
 print('Execution time of the SK-ROCK sampling: '+str(end_exec-start_exec)+' sec')
 
 # %% Plot of the results
-plot_results(y,x,nStagesROCK,meanSamples,logPiTrace,mse,slowFComponent)
+plot_results(y,x,nStagesROCK,meanSamples,logPiTrace,mse)

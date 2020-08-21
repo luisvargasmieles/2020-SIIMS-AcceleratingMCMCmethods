@@ -1,5 +1,4 @@
-function plot_results(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues,...
-                     slowComponent)
+function plot_results(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues)
 
 close all
 
@@ -44,16 +43,5 @@ set(0, 'defaultTextInterpreter', 'latex');
     xlabel('number of gradient evaluations');
     ylabel('MSE','interpreter','latex');
     title('Evolution of MSE in stationarity','Interpreter','latex');
-    
-    % Plot the autocorrelation function of the slowest component
-    figure(6);
-    lag  = 20; 
-    [autocorSKROCK,lags] = autocorr(slowComponent, lag);
-    stem(lags,autocorSKROCK,'filled','^','LineWidth',2,'MarkerSize',10);
-    legend({'SK-ROCK $(s=10)$'},'interpreter','latex');
-    xlabel('lag','interpreter','latex');
-    ylabel('ACF','interpreter','latex');
-    xlim([0 lag]);
-    title('ACF','Interpreter','latex');
 
 end

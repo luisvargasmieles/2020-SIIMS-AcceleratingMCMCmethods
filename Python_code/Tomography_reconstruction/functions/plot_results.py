@@ -8,7 +8,7 @@ def autocorr(x):
     result = np.correlate(x, x, mode='full')
     return result[result.size // 2:]
 
-def plot_results(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues):
+def plot_results(X,nStagesSKROCK,meanSamples,logPiTrace,mseValues,mask,sigma):
 
     plt.rcParams.update({
         "text.usetex": True,
@@ -26,11 +26,15 @@ def plot_results(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues):
     plt.imshow(X)
     plt.title("Original image")
 
-    # Plot the noisy observation
+    # Plot the noisy observation - amplitude fourier coefficients
+    tomObs = np.multiply(mask,np.real(np.log(np.fft.fft2(X + \
+        sigma*(np.random.randn(np.size(X,0),np.size(X,0)))))))
+    tomObs[tomObs==0]=np.amin(tomObs)
     plt.subplot(232)
     plt.gray()
-    plt.imshow(Y)
-    plt.title("Blurred and noisy observation")
+    plt.imshow(tomObs)
+    plt.title("Tomographic Observation $y$ (amp. Fourier coeff. - log-scale)")
+    plt.colorbar()
 
     # Plot the MMSE of x
     plt.subplot(233)
@@ -41,7 +45,7 @@ def plot_results(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues):
     # Plot the \log\pi trace of the samples
     plt.subplot(234)
     plt.plot(np.arange(1,nStagesSKROCK*len(logPiTrace),nStagesSKROCK),logPiTrace)
-    plt.xscale('log')
+    # plt.xscale('log')
     plt.xlabel('number of gradient evaluations')
     plt.ylabel('$\log\pi(X_n)$')
     plt.title('$\log\pi$ trace of $X_n$')

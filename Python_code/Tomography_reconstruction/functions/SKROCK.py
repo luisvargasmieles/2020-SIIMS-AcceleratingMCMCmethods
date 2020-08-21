@@ -37,7 +37,7 @@ def SKROCK(X,Lipschitz_U,nStages,dt_perc,gradU):
     # and parameters needed in the algorithm
     eta=0.05
     denNStag=(2-(4/3)*eta)
-    rhoSKROCK = ((nStages - 0.5)**2) * denNStag - 1.5 # stiffness ratio
+    rhoSKROCK = ((nStages - 0.5)**2)*denNStag - 1.5 # stiffness ratio
     dtSKROCK = dt_perc*rhoSKROCK/Lipschitz_U # step-size
     w0=1 + eta/(nStages**2) # parameter \omega_0
     w1=T_s(nStages,w0)/T_prime_s(nStages,w0) # parameter \omega_1
