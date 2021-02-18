@@ -25,14 +25,15 @@ x = double(x);
 
 %%%% function handle for uniform blur operator (acts on the image
 %%%% coefficients)
-dim_blur = 5; %%% dimension of the blur operator
-h = fspecial('average',dim_blur);
-H = zeros(nRows,nColumns);
-H(1:dim_blur,1:dim_blur) = h;
-clear h dim_blur;
+h = [1 1 1 1 1];
+lh = length(h);
+h = h/sum(h);
+h = [h zeros(1,length(x)-length(h))];
+h = cshift(h,-(lh-1)/2);
+h = h'*h;
 
 %%% operators A and A'
-H_FFT = fft2(H);
+H_FFT = fft2(h);
 HC_FFT = conj(H_FFT);
 
 A = @(x) real(ifft2(H_FFT.*fft2(x))); % A operator
@@ -41,14 +42,14 @@ ATA = @(x) real(ifft2((HC_FFT.*H_FFT).*fft2((x)))); % AtA operator
 
 % generate 'y'
 y = A(x);
-BSNRdb = 42; % we will use this noise level
+BSNRdb = 40; % we will use this noise level
 sigma = sqrt(var(y(:)) / 10^(BSNRdb/10));
 sigma2 = sigma^2;
 y = y + sigma*randn(nRows, nColumns); % we generate the observation 'y'
 
 %%% Algorithm parameters
 lambda = sigma2; %%% regularization parameter
-alpha = 0.01/sigma2; %%% hyperparameter of the prior
+alpha = 0.044; %%% hyperparameter of the prior
 
 % Lipschitz Constants
 Lf = 1/sigma2; %%% Lipschitz constant of the likelihood
@@ -65,9 +66,9 @@ logPi = @(x) -(norm(y-A(x),'fro')^2)/(2*sigma2) -alpha*TVnorm(x);
 
 % SK-ROCK PARAMETERS
 %%% number of internal stages 's'
-nStagesROCK = 15;
+nStagesROCK = 10;
 %%% fraction of the maximum step-size allowed in SK-ROCK (0,1]
-percDeltat = 0.8;
+percDeltat = 0.5;
 
 nSamplesBurnIn = 6e2; % number of samples to produce in the burn-in stage
 nSamples = 1e3; % number of samples to produce in the sampling stage

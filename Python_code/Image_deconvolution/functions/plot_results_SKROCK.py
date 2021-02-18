@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import numpy as np
-from IPython import get_ipython
 
-def plot_results(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues):
+def plot_results_SKROCK(Y,X,nStagesSKROCK,meanSamples,logPiTrace,mseValues):
 
     plt.rcParams.update({
         "text.usetex": True,

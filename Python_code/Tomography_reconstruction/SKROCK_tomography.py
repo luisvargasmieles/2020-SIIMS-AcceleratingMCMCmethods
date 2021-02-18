@@ -69,8 +69,8 @@ nStagesROCK = 10
 # fraction of the maximum step-size allowed in SK-ROCK (0,1]
 percDeltat = 0.8
 
-nSamplesBurnIn = int(5e2) # number of samples to produce in the burn-in stage
-nSamples = int(1e3) # number of samples to produce in the sampling stage
+nSamplesBurnIn = int(1e1) # number of samples to produce in the burn-in stage
+nSamples = int(1e1) # number of samples to produce in the sampling stage
 XkSKROCK = AT(y) # Initial condition
 logPiTrace=np.zeros(nSamplesBurnIn+nSamples)
 logPiTrace[0]=logPi(XkSKROCK)
